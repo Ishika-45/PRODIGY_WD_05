@@ -1,4 +1,4 @@
-
+import { useState } from "react";
 export const useData = () => {
     const locale = 'en';
     const [today, setDate] = useState(new Date())
@@ -15,6 +15,10 @@ export const useData = () => {
 
     const day = today.tolocaledateString(locale,{weekday: 'long'} )
     const date = `${day}, ${today.getDate()},${today.tolocaledateString(locale,{month: 'long'})}\n\n`
-    const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`
+    const time = today.tolocaledateString(locale, { hour: 'numeric', hour12: true, minute: 'numeric'})
+
+    return(
+        date, time
+    )
 
 }
