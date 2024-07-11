@@ -8,9 +8,14 @@ import {BackgroundLayout, WeatherCard, MiniCard} from './Components'
 function App() {
 
   const [input, setInput] = useState('')
-  const {weather, thisLocation, values} = useStateContext()
+  const {weather, thisLocation, values, place, setPlace} = useStateContext()
   // console.log(weather)
 
+  const submitCity = () => {
+    setPlace(input)
+    setInput('')
+  }
+  
   return (
     <div className='w-full h-screen text-white px-8'>
       <nav className='w-full p-3 flex justify-between items-center'>
@@ -20,6 +25,7 @@ function App() {
           <input onKeyUp={(e) => {
             if (e.key === 'Enter') {
               // submit the form
+              submitCity()
           }
           }} type = "text" className='focus:outline-none w-full text-[#212121] text-lg' value={input} onChange={e => setInput(e.target.value)}/>
         </div>
@@ -28,7 +34,7 @@ function App() {
       <main className='w-full flex flex-wrap gap-8 py-4 px-[10%] items-center justify-center'>
         <WeatherCard
           place={thisLocation}
-          windspeed={weather.windspeed}
+          windspeed={weather.wspd}
           humidity={weather.humidity}
           temperature={weather.temp}
          heatIndex={weather.heatindex}
@@ -39,12 +45,14 @@ function App() {
         <div className='flex justify-center gap-8 flex-wrap w-[60%]'>
           {
             values?.slice(1,7).map(curr => {
-              <MiniCard
+              return(
+                <MiniCard
                 key={curr.datetime}
                 time={curr.datetime}
                 temp={curr.temp}
                 iconString={curr.conditions}
               />
+              )
             })  
           }
 

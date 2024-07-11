@@ -13,7 +13,7 @@ export const StateContextProvider = ({ children }) => {
     const fetchWeather = async () => {
         const options = {
             method: 'GET',
-            url: 'https://visual-crossing-weather.p.rapidapi.com/forecast',
+            url: 'https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}',
             params: {
                 aggregateHours: '24',
                 location: place,
@@ -22,8 +22,9 @@ export const StateContextProvider = ({ children }) => {
                 shortColumnNames: 0,
             },
             headers: {
-                'X-RapidAPI-Host': 'visual-crossing-weather.p.rapidapi.com',
                 'X-RapidAPI-Key': import.meta.env.VITE_API_KEY,
+                'X-RapidAPI-Host': 'visual-crossing-weather.p.rapidapi.com'
+                
             }
         }
 
@@ -55,6 +56,7 @@ export const StateContextProvider = ({ children }) => {
                 setPlace,
                 values,
                 thisLocation,
+                place
             }}>
                 {children}
             </StateContext.Provider>
