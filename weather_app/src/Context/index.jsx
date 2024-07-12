@@ -1,67 +1,67 @@
-import { useContext, createContext, useState, useEffect } from "react";
-import axios from 'axios'
+import { createContext, useContext, useState, useEffect } from "react";
+import axios from 'axios';
 
-const StateContext = createContext()
+const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
-    const [weather, setWeather] = useState({})
-    const [values, setValues] = useState([])
-    const [place, setPlace] = useState('Jaipur')
-    const [thisLocation, setLocation] = useState('')
+    const [values, setValues] = useState([]);
+  const [weather, setWeather] = useState({});
+  const [place, setPlace] = useState('Jaipur');
+  const [thisLocation, setLocation] = useState('');
 
-    //fetch API
-    const fetchWeather = async () => {
-        const options = {
-            method: 'GET',
-            url: 'https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}',
-            params: {
-                aggregateHours: '24',
-                location: place,
-                contentType: 'json',
-                unitGroup: 'metric',
-                shortColumnNames: 0,
-            },
-            headers: {
-                'X-RapidAPI-Key': import.meta.env.VITE_API_KEY,
-                'X-RapidAPI-Host': 'visual-crossing-weather.p.rapidapi.com'
-                
-            }
-        }
-
-        try {
-            const response = await axios.request(options);
-            console.log(response.data)
-            const thisData = Object.values(response.data.location)[0]
-            setLocation(thisData.address)
-            setValues(thisData.values)
-            setWeather(thisData.values[0])
-        } catch (e) {
-            console.error(e);
-            //if the API throws error.
-            alert('This place does not exist')
-        }
+  const fetchWeather = async () => {
+    const options = {
+      method: 'GET',
+      url: 'https://api.openweathermap.org/data/2.5/weather',
+      params: {
+        q: place,
+        appid: import.meta.env.VITE_API_KEY,
+        units: 'metric',
+      },
+    };
+    try {
+      const response = await axios.request(options);
+      setLocation(response.data.name);
+      setWeather({
+        ...response.data,
+        conditions: response.data.weather[0]?.description || 'N/A'
+      });
+    } catch (e) {
+      console.error('Error fetching weather data:', e);
+      alert(e.response?.data?.message || 'This place does not exist or an error occurred');
     }
+  };
+  const fetchforecastData = async () => {
+    try {
+      const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast`, {
+        params: {
+            q: place,
+            appid: import.meta.env.VITE_API_KEY,
+            units: 'metric',
+          },
+      });
+      setValues(response.data.list);
+    } catch (error) {
+      console.error('Error fetching other data:', error);
+      alert('Error fetching other data. Please try again later.');
+    }
+  };
 
-    useEffect(() => {
-        fetchWeather()
-    },[place])
+  useEffect(() => {
+    fetchWeather(),fetchforecastData();
+  }, [place]);
 
-        useEffect(() => {
-            console.log(values)
-        },[values])
+  return (
+    <StateContext.Provider value={{
+      weather,
+      setPlace,
+      values,
+      thisLocation,
+      place,
+    }}>
+      {children}
+    </StateContext.Provider>
+  );
+};
 
-        return(
-            <StateContext.Provider value = {{
-                weather,
-                setPlace,
-                values,
-                thisLocation,
-                place
-            }}>
-                {children}
-            </StateContext.Provider>
-        )
-
-}
-
-export const useStateContext = () => useContext(StateContext)
+export const useStateContext = () => useContext(StateContext);
