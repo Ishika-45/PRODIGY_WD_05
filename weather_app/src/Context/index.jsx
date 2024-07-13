@@ -48,8 +48,6 @@ export const StateContextProvider = ({ children }) => {
 
     try {
       const response = await axios.request(options);
-      console.log('API Response:', response.data);
-      setLocation(response.data.location.name);
       setValues(response.data.forecast.forecastday);
     } catch (e) {
       console.error(e);
