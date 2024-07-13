@@ -13,8 +13,7 @@
 </ul>
 <h3>Installation</h3>
 <ol>
-  <li>Clone the repository
-  <code>git clone url_of_repository<code></li>
+  <li><p>Clone the repository</p><p>git clone url_of_repository</p></li>
   <li>Navigate to the project directory
   cd weather_app</li>
   <li>Install dependencies
