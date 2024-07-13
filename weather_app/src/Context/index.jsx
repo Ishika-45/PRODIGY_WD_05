@@ -5,6 +5,7 @@ const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
     const [values, setValues] = useState([]);
+    const [weatherData, setWeatherData] = useState([]);
   const [weather, setWeather] = useState({});
   const [place, setPlace] = useState('Jaipur');
   const [thisLocation, setLocation] = useState('');
@@ -32,18 +33,27 @@ export const StateContextProvider = ({ children }) => {
     }
   };
   const fetchforecastData = async () => {
+    const options = {
+      method: 'GET',
+      url: 'https://weatherapi-com.p.rapidapi.com/forecast.json',
+      params: {
+        q: place,
+        days: '3'
+      },
+      headers: {
+        'x-rapidapi-key': '8c91f38df3mshd6832b2343338cbp137025jsnf3df0a29316d',
+        'x-rapidapi-host': 'weatherapi-com.p.rapidapi.com'
+      }
+    };
+
     try {
-      const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast`, {
-        params: {
-            q: place,
-            appid: import.meta.env.VITE_API_KEY,
-            units: 'metric',
-          },
-      });
-      setValues(response.data.list);
-    } catch (error) {
-      console.error('Error fetching other data:', error);
-      alert('Error fetching other data. Please try again later.');
+      const response = await axios.request(options);
+      console.log('API Response:', response.data);
+      setLocation(response.data.location.name);
+      setValues(response.data.forecast.forecastday);
+    } catch (e) {
+      console.error(e);
+      alert('This place does not exist');
     }
   };
 

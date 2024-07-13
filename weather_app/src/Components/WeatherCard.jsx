@@ -43,10 +43,9 @@ const WeatherCard = ({
     }
   }, [iconString]);
 
-console.log(temperature)
   return (
-    <div className='w-[22rem] min-w-[22rem] h-[30rem] glassCard p-4'>
-      <div className='flex w-full justify-center items-center gap-4 mt-12 mb-4'>
+    <div className='w-[22rem] min-w-[22rem] h-[30rem] glassCard p-4 mb-5'>
+      <div className='flex w-full justify-center items-center gap-4 mt-10 mb-4'>
         <img src={icon} alt='weather_icon' />
         <p className='font-bold text-5xl flex justify-center items-center'>
           {temperature !== undefined ? `${temperature} °C` : 'N/A'}

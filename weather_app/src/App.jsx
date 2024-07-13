@@ -9,7 +9,6 @@ function App() {
 
   const [input, setInput] = useState('');
   const {weather, thisLocation,values, place, setPlace} = useStateContext();
-  // console.log(weather)
 
   const submitCity = () => {
     setPlace(input)
@@ -26,12 +25,12 @@ function App() {
             if (e.key === 'Enter') {
               submitCity()
           }
-          }} type = "text" className='focus:outline-none w-full text-[#212121] text-lg' value={input} onChange={e => setInput(e.target.value)}/>
+          }} type = "text" placeholder='Search City'className='focus:outline-none w-full text-[#212121] text-lg' value={input} onChange={e => setInput(e.target.value)}/>
         </div>
       </nav>
       <BackgroundLayout></BackgroundLayout>
-      <main className='w-full flex flex-wrap gap-8 py-4 px-[10%] items-center justify-center'>
-         <WeatherCard 
+      <main className='w-full h-full flex flex-row flex-wrap justify-center items-center'>
+         <WeatherCard
       temperature={weather.main?.temp} 
       windspeed={weather.wind?.speed} 
       humidity={weather.main?.humidity}
@@ -46,9 +45,11 @@ function App() {
           {values && values.map((value, index) => (
             <MiniCard
               key={index}
-              time={value.dt_txt} 
-              temp={value.main?.temp} 
-              iconString={value.weather?.[0].description}
+              time={value.date} 
+              temp={value.day.avgtemp_c} 
+              risetime={value.astro.sunrise}
+              settime={value.astro.sunset}
+              iconString={value.day.condition.text}
             />
           ))}
         </div>
