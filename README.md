@@ -14,7 +14,7 @@
 <h3>Installation</h3>
 <ol>
   <li>Clone the repository
-  git clone url_of_repository</li>
+  <code>git clone url_of_repository<code></li>
   <li>Navigate to the project directory
   cd weather_app</li>
   <li>Install dependencies
