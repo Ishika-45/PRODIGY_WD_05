@@ -14,10 +14,7 @@
 <h3>Installation</h3>
 <ol>
   <li><p>Clone the repository</p><p>git clone url_of_repository</p></li>
-  <li>Navigate to the project directory
-  cd weather_app</li>
-  <li>Install dependencies
-  npm install</li>
-  <li>Run the application
-  npm run dev</li>
+  <li><p>Navigate to the project directory</p><p>cd weather_app</p></li>
+  <li><p>Install dependencies</p><p>npm install</p></li>
+  <li><p>Run the application</p><p>npm run dev</p></li>
 </ol>
